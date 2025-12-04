@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go with Weiyi - Dare to Play</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Welcome Screen -->
+    <div id="welcome-screen" class="screen">
+        <div class="welcome-container">
+            <div class="logo-container">
+                <img src="logo.png" alt="Go with Weiyi Logo" class="game-logo">
+            </div>
+            <h1 class="game-title">Go with Weiyi</h1>
+            <p class="tagline">Dare to Play</p>
+            <p class="chinese-text">黑白落子，生死争锋</p>
+            <p class="chinese-pronunciation">Hēibái luòzǐ, shēngsǐ zhēngfēng</p>
+            <p class="chinese-translation">"When black and white stones fall, life and death begins."</p>
+            
+            <button id="play-button" class="play-button">PLAY</button>
+            <div class="instructions">
+                <p>Press the PLAY button to start</p>
+                <p>Or press the <kbd id="f-key">F</kbd> key</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Player Setup Screen -->
+    <div id="setup-screen" class="screen hidden">
+        <div class="setup-container">
+            <h2>Welcome, Challenger!</h2>
+            <p>Before we begin our battle, tell me your name:</p>
+            <input type="text" id="player-name" placeholder="Enter your name" maxlength="20">
+            <button id="start-game-btn" class="play-button">Start Battle</button>
+            <button id="about-weiyi-btn" class="about-button">About Weiyi</button>
+            
+            <div class="setup-instructions">
+                <div class="instruction-section">
+                    <h4>Voice Commands:</h4>
+                    <ul>
+                        <li>Say positions like "A1", "B2", "C3"</li>
+                        <li>Or say "Row 1 Column 2"</li>
+                        <li>Say "help" for instructions</li>
+                    </ul>
+                </div>
+                <div class="instruction-section">
+                    <h4>Keyboard Shortcuts:</h4>
+                    <ul>
+                        <li><kbd>Space</kbd> - Start listening</li>
+                        <li><kbd>Esc</kbd> - Stop listening</li>
+                        <li><kbd>H</kbd> - Help</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Weiyi Screen -->
+    <div id="about-screen" class="screen hidden">
+        <div class="about-weiyi-container">
+            <h1>About Weiyi</h1>
+            <div class="about-content-full">
+                <div class="game-info">
+                    <h2>Go with Weiyi</h2>
+                    <p class="tagline-main">Dare to Play</p>
+                    <p class="tagline-sub">"When black and white stones fall, life and death begins."</p>
+                </div>
+                
+                <div class="weiyi-info">
+                    <h3>Meet Your AI Opponent</h3>
+                    <p>I'm <strong>Weiyi</strong>, your strategic AI opponent, created by my master <strong>Sonali</strong>.</p>
+                    <p>I am a bold and expressive Go master with a confident personality. I will challenge you with calculated moves and engaging conversation throughout our battle.</p>
+                </div>
+                
+                <div class="game-rules">
+                    <h3>How the Game Works</h3>
+                    <ul>
+                        <li><strong>Objective:</strong> Place stones strategically on the 5×5 board</li>
+                        <li><strong>Black Stones:</strong> Your pieces - place them by clicking or voice commands</li>
+                        <li><strong>White Stones:</strong> My pieces - I'll place them strategically</li>
+                        <li><strong>Winning:</strong> Control more territory when the board fills up</li>
+                        <li><strong>Strategy:</strong> Connect your stones and block my advances</li>
+                    </ul>
+                </div>
+                
+                <div class="weiyi-character">
+                    <h3>My Character</h3>
+                    <p><strong>Personality:</strong> Confident, strategic, and always ready for a challenge</p>
+                    <p><strong>Speaking Style:</strong> Bold, expressive, and conversational</p>
+                    <p><strong>Challenge Level:</strong> I prefer center positions and strategic connections</p>
+                    <p><strong>Attitude:</strong> I never back down from a fight and speak my mind!</p>
+                </div>
+            </div>
+            
+            <button id="back-to-setup-btn" class="back-button">Back to Setup</button>
+            <div class="f-key-instruction">
+                <p>Press the <kbd id="f-key-about">F</kbd> key to return to setup</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Game Screen -->
+    <div id="game-screen" class="screen hidden">
+        <div class="game-layout">
+            <header class="game-header">
+                <h1>Go with Weiyi</h1>
+                <p>Strategic AI-powered Go on a 5×5 board</p>
+            </header>
+
+            <div class="game-grid">
+                <!-- Game Status -->
+                <div class="game-status-panel">
+                    <div class="status-card">
+                        <h3>Game Status</h3>
+                        <div class="scores">
+                            <div class="score-item">
+                                <div class="score-stone black"></div>
+                                <span>You: <span id="black-score">0</span></span>
+                            </div>
+                            <div class="score-item">
+                                <div class="score-stone white"></div>
+                                <span>Weiyi: <span id="white-score">0</span></span>
+                            </div>
+                        </div>
+                        <div id="current-turn" class="turn-indicator">
+                            <div class="turn-stone black"></div>
+                            <span>Your Turn</span>
+                        </div>
+                        <div id="ai-message" class="ai-message"></div>
+                        <button id="new-game-btn" class="action-btn">New Game</button>
+                        <button id="back-to-menu-btn" class="action-btn secondary">Back to Menu</button>
+                    </div>
+                </div>
+
+                <!-- Game Board -->
+                <div class="board-section">
+                    <div class="board-container">
+                        <div class="column-labels">
+                            <div class="column-label">A</div>
+                            <div class="column-label">B</div>
+                            <div class="column-label">C</div>
+                            <div class="column-label">D</div>
+                            <div class="column-label">E</div>
+                        </div>
+                        <div class="board-wrapper">
+                            <div class="row-labels">
+                                <div class="row-label">1</div>
+                                <div class="row-label">2</div>
+                                <div class="row-label">3</div>
+                                <div class="row-label">4</div>
+                                <div class="row-label">5</div>
+                            </div>
+                            <div id="go-board"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Voice Controls -->
+                <div class="voice-controls-panel">
+                    <div class="voice-card">
+                        <h3>Voice Controls</h3>
+                        <div id="voice-status" class="voice-status">
+                            🎤 Your turn - Voice commands active
+                        </div>
+                        <div class="voice-buttons">
+                            <button id="start-voice-btn" class="voice-btn primary">🎤 Start Voice</button>
+                            <button id="stop-voice-btn" class="voice-btn secondary">⏹️ Stop</button>
+                        </div>
+                        <div id="transcript-display" class="transcript hidden">
+                            <p class="transcript-label">You said:</p>
+                            <p id="transcript-text"></p>
+                        </div>
+                        <div class="voice-instructions">
+                            <h4>Voice Commands:</h4>
+                            <ul>
+                                <li>Say positions like "A1", "B2", "C3"</li>
+                                <li>Or say "Row 1 Column 2"</li>
+                                <li>Say "help" for instructions</li>
+                            </ul>
+                            <h4>Keyboard Shortcuts:</h4>
+                            <ul>
+                                <li><kbd>Space</kbd> - Start listening</li>
+                                <li><kbd>Esc</kbd> - Stop listening</li>
+                                <li><kbd>H</kbd> - Help</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Thinking Indicator -->
+        <div id="thinking-indicator" class="thinking-indicator hidden">
+            <div class="thinking-content">
+                <div class="spinner"></div>
+                <span>Weiyi is thinking...</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
